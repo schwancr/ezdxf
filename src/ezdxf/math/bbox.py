@@ -412,7 +412,7 @@ class BoundingBox2d(AbstractBoundingBox):
         )
         return new_bbox
 
-    def has_overlap(self, other: AbstractBoundingBox) -> bool:
+    def has_overlap(self, other: AbstractBoundingBox, abs_tol=0.0) -> bool:
         """Returns ``True`` if this bounding box intersects with `other` but
         in contrast to :meth:`has_intersection` includes touching bounding boxes too::
 
@@ -430,13 +430,13 @@ class BoundingBox2d(AbstractBoundingBox):
         ):
             return False
         # Check for a separating axis:
-        if self.extmin.x > other.extmax.x:
+        if self.extmin.x > other.extmax.x + abs_tol:
             return False
-        if self.extmax.x < other.extmin.x:
+        if self.extmax.x < other.extmin.x - abs_tol:
             return False
-        if self.extmin.y > other.extmax.y:
+        if self.extmin.y > other.extmax.y + abs_tol:
             return False
-        if self.extmax.y < other.extmin.y:
+        if self.extmax.y < other.extmin.y - abs_tol:
             return False
         return True
 

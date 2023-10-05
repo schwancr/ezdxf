@@ -93,8 +93,8 @@ def intersection_line_line_2d(
     # 0 = intersection point is the start point of the line
     # 1 = intersection point is the end point of the line
     # otherwise: linear interpolation
-    lwr = 0.0  # tolerances required?
-    upr = 1.0  # tolerances required?
+    lwr = 0.0 - abs_tol # tolerances required?
+    upr = 1.0 + abs_tol # tolerances required?
     if lwr <= us <= upr:  # intersection point is on the subject line
         uc = ((s2x - s1x) * (s1y - c1y) - (s2y - s1y) * (s1x - c1x)) / den
         if lwr <= uc <= upr:  # intersection point is on the clipping line

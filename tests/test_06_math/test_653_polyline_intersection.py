@@ -116,6 +116,36 @@ class TestIntersectPolylines2d:
         assert res[0].isclose(Vec2(1, 1))
         assert res[1].isclose(Vec2(2, 1))
 
+    def test_endpoint_close_to_line(self):
+        """ The one line's endpoint is close to the other line but in a way
+        that the bbox's do not overlap
+        """
+        pline1 = Vec2.list([(0, 0), (0, 1)])
+        pline2 = Vec2.list([(1e-12, 0.5), (1, 0.5)])
+        res = intersect_polylines_2d(pline1, pline2, abs_tol=1e-6)
+        assert len(res) > 0
+
+    def test_endpoints_close_together(self):
+        """ Endpoints almost touching but not quite.
+        """
+        pline1 = Vec2.list([
+            (2258.792544958331, 895.3182883002858),
+            (2259.2883041920322, 895.6019850600767),
+            (2259.7794999008347, 895.8935118083691)
+        ])
+
+        pline2 = Vec2.list([
+            (2259.779499900837, 895.8935118083705),
+            (2241.1607099887274, 926.7048840953805)
+        ])
+        res = intersect_polylines_2d(pline1, pline2, abs_tol=1e-10)
+        assert len(res) > 0
+
+        res = intersect_polylines_2d(pline1, pline2, abs_tol=1e-16)
+        assert len(res) == 0
+
+        res = intersect_polylines_2d(pline1[1:], pline2, abs_tol=1e-10)
+        assert len(res) > 0
 
 class TestIntersectPolylines3d:
     """
